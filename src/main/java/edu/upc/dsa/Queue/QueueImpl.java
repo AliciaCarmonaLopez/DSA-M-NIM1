@@ -45,6 +45,6 @@ public class QueueImpl<E> implements Queue<E> {
         return this.data.length;
     }
 
-
+    public int num(){return this.p;}
 }
 

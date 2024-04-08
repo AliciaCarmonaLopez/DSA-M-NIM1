@@ -45,4 +45,91 @@ public class ProductsService {
         return Response.status(201).entity(entity).build()  ;
 
     }
+    @GET
+    @ApiOperation(value = "order products by sales", notes = "asdasd")
+    @ApiResponses(value = {
+            @ApiResponse(code = 201, message = "Successful", response = Product.class, responseContainer="List"),
+    })
+    @Path("/")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getProductsBySales() {
+
+        List<Product> products = this.pm.productsBySales();
+
+        GenericEntity<List<Product>> entity = new GenericEntity<List<Product>>(products) {};
+        return Response.status(201).entity(entity).build()  ;
+
+    }
+    @POST
+    @ApiOperation(value = "add a new User", notes = "asdasd")
+    @ApiResponses(value = {
+            @ApiResponse(code = 201, message = "Successful"),
+            @ApiResponse(code = 500, message = "Validation Error")
+
+    })
+    @Path("/{id}/{name}/{surname}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response newUser(@PathParam("id") String id, @PathParam("name") String name, @PathParam("surname") String surname) {
+        User u = new User(id, name, surname);
+        this.pm.addUser(id, name, surname);
+        return Response.status(201).entity(u).build();
+    }
+
+    @POST
+    @ApiOperation(value = "add a new Product", notes = "asdasd")
+    @ApiResponses(value = {
+            @ApiResponse(code = 201, message = "Successful"),
+            @ApiResponse(code = 500, message = "Validation Error")
+
+    })
+    @Path("/{id}/{name}/{price}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response newProduct(@PathParam("id") String id, @PathParam("name") String name, @PathParam("price") double price) {
+        Product p = new Product(id, name, price);
+        this.pm.addProduct(id, name, price);
+        return Response.status(201).entity(p).build();
+    }
+
+    @POST
+    @ApiOperation(value = "add a new Order", notes = "asdasd")
+    @ApiResponses(value = {
+            @ApiResponse(code = 201, message = "Successful", response = Order.class),
+            @ApiResponse(code = 500, message = "Validation Error")
+
+    })
+    @Path("/")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response newOrder(Order o) {
+        this.pm.addOrder(o);
+        return Response.status(201).entity(o).build();
+    }
+
+    @PUT
+    @ApiOperation(value = "process order", notes = "asdasd")
+    @ApiResponses(value = {
+            @ApiResponse(code = 201, message = "Successful"),
+            @ApiResponse(code = 404, message = "Track not found")
+    })
+    @Path("/")
+    public Response updateTrack() {
+
+        Order o = this.pm.processOrder();
+        return Response.status(201).entity(o).build();
+    }
+
+    @GET
+    @ApiOperation(value = "list the orders of a user", notes = "asdasd")
+    @ApiResponses(value = {
+            @ApiResponse(code = 201, message = "Successful", response = Order.class, responseContainer="List"),
+    })
+    @Path("/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getOrdersByUser(@PathParam("id") String id) {
+
+        List<Order> orders = this.pm.ordersByUser(id);
+
+        GenericEntity<List<Order>> entity = new GenericEntity<List<Order>>(orders) {};
+        return Response.status(201).entity(entity).build()  ;
+
+    }
 }

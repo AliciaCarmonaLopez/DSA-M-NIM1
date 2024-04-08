@@ -12,9 +12,13 @@ import edu.upc.dsa.Queue.FullQueueException;
 import java.util.*;
 
 public class ProductManagerImpl implements ProductManager{
+
     private List<Product> listaProducts;
     private HashMap<String, User> listaUsersH;
     private Queue<Order> colaComandas;
+
+    public HashMap<String,User> getListaUsersH(){return listaUsersH;}
+    public Queue<Order> getColaComandas(){return colaComandas;}
     final static Logger logger = Logger.getLogger(ProductManagerImpl.class);
     private static ProductManager instance;
     public static ProductManager getInstance() {
@@ -46,6 +50,7 @@ public class ProductManagerImpl implements ProductManager{
         logger.info("New order: " + order);
         try{colaComandas.push(order);}
         catch(FullQueueException fullExp){
+
             fullExp.printStackTrace();
         }
         logger.info("New order added");
@@ -91,5 +96,13 @@ public class ProductManagerImpl implements ProductManager{
     public void addProduct(String productId, String name, double price) {
         Product p = new Product(productId, name, price);
         listaProducts.add(p);
+    }
+
+    public int getSalesByName(String productID){
+        for(Product p:listaProducts){
+            if(p.getProductId() == productID)
+                return p.getSales();
+        }
+        return 0;
     }
 }

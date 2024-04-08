@@ -3,6 +3,9 @@ package edu.upc.dsa;
 import edu.upc.dsa.models.Order;
 import edu.upc.dsa.models.Product;
 
+
+import java.io.IOException;
+import java.net.URI;
 import java.util.List;
 
 public class ProductManagerTest {
