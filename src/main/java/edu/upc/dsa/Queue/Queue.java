@@ -1,4 +1,4 @@
-package org.example;
+package edu.upc.dsa.Queue;
 
 public interface Queue<E> {
     /**

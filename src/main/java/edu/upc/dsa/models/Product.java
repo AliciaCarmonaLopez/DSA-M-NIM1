@@ -1,4 +1,4 @@
-package org.example;
+package edu.upc.dsa.models;
 
 public class Product {
     private String productId;

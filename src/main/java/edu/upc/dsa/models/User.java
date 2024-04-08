@@ -1,5 +1,6 @@
-package org.example;
+package edu.upc.dsa.models;
 
+import java.util.LinkedList;
 import java.util.List;
 
 public class User {
@@ -13,11 +14,12 @@ public class User {
         this.s = s;
         this.name = name;
         this.surname = surname;
+        listaComandasU = new LinkedList<>();
     }
     public User(){
 
     }
-    public void añadirComanda(Order o){
+    public void addComanda(Order o){
         listaComandasU.add(o);
     }
 

@@ -1,4 +1,4 @@
-package org.example;
+package edu.upc.dsa.Queue;
 
 public class QueueImpl<E> implements Queue<E> {
     private E[] data;

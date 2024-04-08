@@ -1,4 +1,7 @@
-package org.example;
+package edu.upc.dsa;
+
+import edu.upc.dsa.models.Order;
+import edu.upc.dsa.models.Product;
 
 import java.util.List;
 

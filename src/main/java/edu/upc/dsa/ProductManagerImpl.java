@@ -1,12 +1,26 @@
-package org.example;
+package edu.upc.dsa;
 
+
+import edu.upc.dsa.models.Order;
+import edu.upc.dsa.models.Product;
+import edu.upc.dsa.models.User;
+import org.apache.log4j.Logger;
+import edu.upc.dsa.Queue.Queue;
+import edu.upc.dsa.Queue.QueueImpl;
+import edu.upc.dsa.Queue.EmptyQueueException;
+import edu.upc.dsa.Queue.FullQueueException;
 import java.util.*;
-
 
 public class ProductManagerImpl implements ProductManager{
     private List<Product> listaProducts;
     private HashMap<String, User> listaUsersH;
-    private   Queue<Order> colaComandas;
+    private Queue<Order> colaComandas;
+    final static Logger logger = Logger.getLogger(ProductManagerImpl.class);
+    private static ProductManager instance;
+    public static ProductManager getInstance() {
+        if (instance==null) instance = new ProductManagerImpl();
+        return instance;
+    }
     public ProductManagerImpl(){
         listaProducts = new ArrayList<>();
         listaUsersH = new HashMap<>();
@@ -29,11 +43,12 @@ public class ProductManagerImpl implements ProductManager{
 
     @Override
     public void addOrder(Order order) {
+        logger.info("New order: " + order);
         try{colaComandas.push(order);}
         catch(FullQueueException fullExp){
             fullExp.printStackTrace();
         }
-
+        logger.info("New order added");
     }
 
     @Override
@@ -41,6 +56,7 @@ public class ProductManagerImpl implements ProductManager{
         Order o = new Order();
         try{o = colaComandas.pop();}
         catch(EmptyQueueException empExp){
+            logger.error("Empty order's queue");
             empExp.printStackTrace();
         }
         HashMap<String, Integer> h = o.getPedido();
@@ -52,7 +68,8 @@ public class ProductManagerImpl implements ProductManager{
                 }
             }
         }
-        listaUsersH.get(o.getIdUser()).añadirComanda(o);
+        listaUsersH.get(o.getIdUser()).addComanda(o);
+        logger.info("New order processed" + o);
         return o;
     }
 
@@ -63,8 +80,10 @@ public class ProductManagerImpl implements ProductManager{
 
     @Override
     public void addUser(String s, String name, String surname) {
+        logger.info("User with name: " + name);
         User u = new User(s, name, surname);
         listaUsersH.put(s, u);
+        logger.info("New user added");
 
     }
 
