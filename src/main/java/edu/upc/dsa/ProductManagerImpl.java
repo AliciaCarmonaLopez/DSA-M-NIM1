@@ -18,6 +18,12 @@ public class ProductManagerImpl implements ProductManager{
     private Queue<Order> colaComandas;
 
     public HashMap<String,User> getListaUsersH(){return listaUsersH;}
+
+    @Override
+    public int getNumProducts() {
+        return listaProducts.size();
+    }
+
     public Queue<Order> getColaComandas(){return colaComandas;}
     final static Logger logger = Logger.getLogger(ProductManagerImpl.class);
     private static ProductManager instance;
