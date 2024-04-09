@@ -27,5 +27,7 @@ public interface ProductManager {
 
     public HashMap<String,User> getListaUsersH();
 
+
     public int getNumProducts();
+
 }

@@ -111,4 +111,8 @@ public class ProductManagerImpl implements ProductManager{
         }
         return 0;
     }
+
+    public int numProducts() {
+        return listaProducts.size();
+    }
 }
