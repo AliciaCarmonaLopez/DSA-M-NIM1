@@ -26,4 +26,6 @@ public interface ProductManager {
     public int getSalesByName(String s);
 
     public HashMap<String,User> getListaUsersH();
+
+    public int numProducts();
 }

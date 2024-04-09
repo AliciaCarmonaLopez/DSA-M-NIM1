@@ -1,11 +1,11 @@
-package edu.upc.dsa.Services;
+package edu.upc.dsa.services;
 
+import edu.upc.dsa.models.Order;
+import edu.upc.dsa.models.User;
 import io.swagger.annotations.Api;
 import edu.upc.dsa.ProductManager;
 import edu.upc.dsa.ProductManagerImpl;
 import edu.upc.dsa.models.Product;
-import edu.upc.dsa.models.User;
-import edu.upc.dsa.models.Order;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -14,7 +14,6 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.ArrayList;
 import java.util.List;
 @Api(value = "/products", description = "Endpoint to Product Service")
 @Path("/products")
@@ -22,11 +21,16 @@ public class ProductsService {
     private ProductManager pm;
     public ProductsService() {
         this.pm = ProductManagerImpl.getInstance();
-        if (pm == null) {
+        if (pm.numProducts() == 0) {
             pm.addProduct("B001", "Coca cola", 2);
             pm.addProduct("C002", "Café amb gel", 1.5);
             pm.addProduct("A002", "Donut", 2.25);
             pm.addProduct("A003", "Croissant", 1.25);
+            pm.addUser("ssss", "Juan", "");
+            pm.addUser("ssss", "Toni", "");
+            pm.addUser("ssss", "Alicia", "");
+            pm.addUser("ssss", "", "");
+
         }
     }
 
@@ -35,22 +39,28 @@ public class ProductsService {
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "Successful", response = Product.class, responseContainer="List"),
     })
-    @Path("/")
+    @Path("/byPrice")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getProductsByPrice() {
 
         List<Product> products = this.pm.productsByPrice();
 
+        System.out.println("size: "+products.size());
+        for (Product p: products) {
+            System.out.println(p.getProductId());
+        }
+
         GenericEntity<List<Product>> entity = new GenericEntity<List<Product>>(products) {};
         return Response.status(201).entity(entity).build()  ;
 
     }
+
     @GET
     @ApiOperation(value = "order products by sales", notes = "asdasd")
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "Successful", response = Product.class, responseContainer="List"),
     })
-    @Path("/")
+    @Path("/BySales")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getProductsBySales() {
 
@@ -67,11 +77,10 @@ public class ProductsService {
             @ApiResponse(code = 500, message = "Validation Error")
 
     })
-    @Path("/{id}/{name}/{surname}")
+    @Path("/user")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response newUser(@PathParam("id") String id, @PathParam("name") String name, @PathParam("surname") String surname) {
-        User u = new User(id, name, surname);
-        this.pm.addUser(id, name, surname);
+    public Response newUser(User u){
+        this.pm.addUser("", "", "");
         return Response.status(201).entity(u).build();
     }
 
@@ -82,12 +91,14 @@ public class ProductsService {
             @ApiResponse(code = 500, message = "Validation Error")
 
     })
-    @Path("/{id}/{name}/{price}")
+    @Path("/product")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response newProduct(@PathParam("id") String id, @PathParam("name") String name, @PathParam("price") double price) {
-        Product p = new Product(id, name, price);
-        this.pm.addProduct(id, name, price);
-        return Response.status(201).entity(p).build();
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response newProduct(Product p ) {//{@PathParam("id") String id, @PathParam("name") String name, @PathParam("price") double price) {
+//        Product p = new Product(id, name, price);
+//        this.pm.addProduct(id, name, price);
+//        return Response.status(201).entity(p).build();
+        return null;
     }
 
     @POST
@@ -111,7 +122,8 @@ public class ProductsService {
             @ApiResponse(code = 404, message = "Track not found")
     })
     @Path("/")
-    public Response updateTrack() {
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response processOrder() {
 
         Order o = this.pm.processOrder();
         return Response.status(201).entity(o).build();

@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.util.List;
 public class Main {
-    public static final String BASE_URI = "http://localhost:8080/AliciaApp/";
+    public static final String BASE_URI = "http://localhost:8080/dsaApp/";
 
     /**
      * Starts Grizzly HTTP server exposing JAX-RS resources defined in this application.
@@ -27,7 +27,7 @@ public class Main {
         BeanConfig beanConfig = new BeanConfig();
 
         beanConfig.setHost("localhost:8080");
-        beanConfig.setBasePath("/AliciaApp");
+        beanConfig.setBasePath("/dsaApp");
         beanConfig.setContact("support@example.com");
         beanConfig.setDescription("REST API for Tracks Manager");
         beanConfig.setLicenseUrl("http://www.apache.org/licenses/LICENSE-2.0.html");
